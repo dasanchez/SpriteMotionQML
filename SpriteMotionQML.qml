@@ -1,5 +1,7 @@
 import QtQuick 2.8
 import QtQuick.Window 2.2
+//import QtGamePad 1.0
+import "kinematics.js" as Motion
 
 Window {
     // custom counter property for space presses
@@ -17,32 +19,31 @@ Window {
         y: yPosition
         focus: true
         Keys.onUpPressed: {
-            moveY(1)
+            Motion.moveY(2)
         }
         Keys.onDownPressed: {
-            moveY(-1)
+            Motion.moveY(-2)
         }
         Keys.onRightPressed: {
-            rotateStep(-5)
+            Motion.rotateStep(-2)
         }
         Keys.onLeftPressed: {
-            rotateStep(5)
+            Motion.rotateStep(2)
         }
-        transform: Rotation { origin.x: 60; origin.y: 60; angle: 90-rotationAngle }
+        Keys.onDigit9Pressed: {
+            Motion.trackMotion(5,-5)
+        }
+        Keys.onDigit0Pressed: {
+            Motion.trackMotion(-2,2)
+        }
+        Keys.onDigit8Pressed: {
+            Motion.trackMotion(4,2)
+        }
+        Keys.onDigit7Pressed: {
+            Motion.trackMotion(-5,-9)
+        }
 
-        function rotateStep(step) {
-            rotationAngle += step
-            if(rotationAngle>360)
-                rotationAngle-=360
-            if(rotationAngle<-360)
-                rotationAngle+=360
-            console.log("Rotation Angle: ", rotationAngle)
-        }
-        function moveY(step) {
-            xPosition += Math.sign(step)*Math.cos(-rotationAngle*Math.PI/180)
-            yPosition += Math.sign(step)*Math.sin(-rotationAngle*Math.PI/180)
-            console.log("x: ", xPosition, "y: ", yPosition)
-        }
+        transform: Rotation { origin.x: 60; origin.y: 60; angle: 90-rotationAngle }
     }
 }
 
