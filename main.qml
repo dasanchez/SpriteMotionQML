@@ -1,13 +1,14 @@
-import QtQuick 2.8
-import QtQuick.Window 2.2
-//import QtGamePad 1.0
+import QtQuick 2.2
+import QtQuick.Controls 1.1
+import QtGamepad 1.0
 import "kinematics.js" as Motion
 
-Window {
+ApplicationWindow {
     // custom counter property for space presses
     property real rotationAngle: 90
     property real xPosition: 200
     property real yPosition: 200
+    //    property Gamepad gamepad
 
     visible: true
     width: 600
@@ -45,5 +46,22 @@ Window {
 
         transform: Rotation { origin.x: 60; origin.y: 60; angle: 90-rotationAngle }
     }
+    Connections {
+        target: GamepadManager
+        onGamepadConnected: gamepad.deviceId = deviceId
+    }
+
+    Gamepad {
+        id: gamepad
+        deviceId: GamepadManager.connectedGamepads.length > 0 ? GamepadManager.connectedGamepads[0] : -1
+    }
+
+    Timer {
+        interval: 50; running: true; repeat: true
+        onTriggered: Motion.pollGamepad()
+    }
+
+
+
 }
 
