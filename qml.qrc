@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>SpriteItem.qml</file>
+        <file>kinematics.js</file>
+    </qresource>
+</RCC>

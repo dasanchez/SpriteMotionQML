@@ -12,7 +12,6 @@ function moveY(step) {
     yPosition += Math.sign(step)*Math.abs(step)*Math.sin(-rotationAngle*Math.PI/180)
     if(yPosition<0) yPosition=0
     if(yPosition>480) yPosition=480
-    console.log(yPosition)
 }
 
 function trackMotion(leftStep, rightStep) {
@@ -37,4 +36,11 @@ function trackMotion(leftStep, rightStep) {
         linearStep *= Math.sign(rightStep) // Sets direction
         moveY(linearStep)
     }
+}
+
+function pollGamepad() {
+    // Mode 1: Connect left joystick to left track, right joystick to right track
+    trackMotion(-3*gamepad.axisLeftY,-3*gamepad.axisRightY)
+// Mode 2: Connect left joystick to forward/backward, right joystick to direction
+//    trackMotion()
 }
