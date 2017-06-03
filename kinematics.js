@@ -40,7 +40,33 @@ function trackMotion(leftStep, rightStep) {
 
 function pollGamepad() {
     // Mode 1: Connect left joystick to left track, right joystick to right track
-    trackMotion(-3*gamepad.axisLeftY,-3*gamepad.axisRightY)
-// Mode 2: Connect left joystick to forward/backward, right joystick to direction
-//    trackMotion()
+    //    trackMotion(-3*gamepad.axisLeftY,-3*gamepad.axisRightY)
+    // Mode 2: Connect left joystick to forward/backward, right joystick to direction
+    var ltrack, rtrack, rotate
+    // Start with linear motion
+    ltrack = gamepad.axisLeftY
+    rtrack = gamepad.axisLeftY
+    // Compensate for rotation
+    if(Math.abs(gamepad.axisRightX)>0)
+    {
+        rotate = Math.abs(gamepad.axisRightX) - Math.abs(gamepad.axisLeftY/4)
+        if(gamepad.axisRightX>0) {
+            ltrack -= rotate
+            rtrack += rotate
+        }
+        else {
+            ltrack += rotate
+            rtrack -= rotate
+        }
+        if(ltrack>1)
+            ltrack=1
+        if(ltrack<-1)
+            ltrack=-1
+        if(rtrack>1)
+            rtrack=1
+        if(rtrack<-1)
+            rtrack=-1
+    }
+    trackMotion(-3*ltrack,-3*rtrack)
+    console.log(gamepad.axisLeftY, gamepad.axisRightX, ltrack, rtrack)
 }
